@@ -40,7 +40,7 @@ app.get('/users', (req, res)->
         res.status(404).json(error: 'no user with such username/password')
       else
         token = jwt.encode({
-          iss: user._id,
+          iss: users[0]._id,
         }, app.get('jwtTokenSecret'))
         res.status(200).json({
           username,
