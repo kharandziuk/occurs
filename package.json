@@ -1,0 +1,19 @@
+{
+  "name": "occurs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kharandziuk/occurs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kharandziuk/occurs/issues"
+  },
+  "homepage": "https://github.com/kharandziuk/occurs"
+}
