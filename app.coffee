@@ -39,9 +39,12 @@ app.get('/users', (req, res)->
       if users.length == 0
         res.status(404).json(error: 'no user with such username/password')
       else
+        console.log(users[0])
         token = jwt.encode({
           iss: users[0]._id,
         }, app.get('jwtTokenSecret'))
+        console.log(token)
+        console.log(jwt.decode(token, app.get('jwtTokenSecret')))
         res.status(200).json({
           username,
           token
