@@ -15,7 +15,6 @@ url = 'mongodb://localhost:27017/myproject'
 client = Promise.promisify(MongoClient.connect, MongoClient)(url)
 app.use((req, res, next)->
   client.then((db)->
-    console.log 'here'
     req.db = {
       events: db.collection('events')
       users: db.collection('users')
@@ -69,13 +68,10 @@ app.post('/users', (req, res)->
             error: 'there is a user with such id'
           )
       else
-        req.db.insert({username, password}, (err)->
+        req.db.users.insert({username, password}, (err)->
           throw err if err?
           res.status(201).end()
         )
-    req.db.users.count((err, count)->
-      res.json({count})
-    )
   else
     res
       .status(400)
