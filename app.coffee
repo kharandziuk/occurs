@@ -39,12 +39,9 @@ app.get('/users', (req, res)->
       if users.length == 0
         res.status(404).json(error: 'no user with such username/password')
       else
-        console.log(users[0])
         token = jwt.encode({
           iss: users[0]._id,
         }, app.get('jwtTokenSecret'))
-        console.log(token)
-        console.log(jwt.decode(token, app.get('jwtTokenSecret')))
         res.status(200).json({
           username,
           token
@@ -84,16 +81,18 @@ app.post('/users', (req, res)->
 )
 
 
-app.get('/events', [auth], (req, res) ->
-  req.db.events.count((err, count)->
-    res.json({count})
+app.get('/events', (req, res) ->
+  req.db.events.find({}).toArray((err, events)->
+    throw err if err?
+    console.log(events)
+    res.json({events})
   )
 )
 
 app.post('/events', [auth], (req, res) ->
   date = new Date
-  req.db.events.insert({date}, (err, result) ->
-    res.json(date)
+  req.db.events.insert({date, userId: req.user._id }, (err, result) ->
+    res.json(result)
   )
 )
 
