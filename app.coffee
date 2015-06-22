@@ -28,7 +28,6 @@ app.use((req, res, next)->
   )
 )
 
-jwauth = require('./lib/auth')(app, C.users)
 
 app.set('jwtTokenSecret', 'YOUR_SECRET_STRING')
 
