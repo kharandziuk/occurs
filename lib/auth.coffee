@@ -1,7 +1,7 @@
 url = require('url')
 jwt = require('jwt-simple')
 
-return (req, res, next)->
+module.exports = (req, res, next)->
   parsed_url = url.parse(req.url, true)
   ###
   * Take the token from:
