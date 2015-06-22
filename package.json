@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "coffee app.coffee"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/kharandziuk/occurs/issues"
   },
-  "homepage": "https://github.com/kharandziuk/occurs"
+  "homepage": "https://github.com/kharandziuk/occurs",
+  "dependencies": {
+    "bluebird": "^2.9.30",
+    "body-parser": "^1.13.1",
+    "coffee-script": "^1.9.3",
+    "express": "^4.13.0",
+    "jwt-simple": "^0.3.0",
+    "mongodb": "^2.0.34"
+  }
 }
