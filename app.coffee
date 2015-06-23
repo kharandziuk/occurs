@@ -97,10 +97,12 @@ app.post('/events', [auth], (req, res) ->
 )
 
 if IS_DEVELOPMENT
-  app.use('/static', express.static(__dirname + "/static"))
+  #app.use('/static', express.static(__dirname + "/static"))
+  app.use('/static', express.static(__dirname + "/s"))
 
   app.get('/', (req, res) ->
-    response.sendFile(__dirname + "static/views/index.html")
+    res.sendFile(__dirname + "/static/views/index.html")
   )
 
 app.listen(8000)
+console.log('started!')
