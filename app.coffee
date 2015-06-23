@@ -1,24 +1,30 @@
 Promise = require('bluebird')
 express = require('express')
-app = express()
 bodyParser = require('body-parser')
 {MongoClient} = require('mongodb')
-assert = require 'assert'
-auth = require './lib/auth'
+assert = require('assert')
 jwt = require('jwt-simple')
+
+
+app = express()
+server = require('http').createServer(app)
+io = require('socket.io')(server)
+
+auth = require './lib/auth'
 
 IS_DEVELOPMENT = true
 
 app.use(bodyParser.json())
 
 url = 'mongodb://localhost:27017/myproject'
-client = Promise.promisify(MongoClient.connect, MongoClient)(url)
+db = Promise.promisify(MongoClient.connect, MongoClient)(url).then((db)-> {
+  events: db.collection('events')
+  users: db.collection('users')
+})
+
 app.use((req, res, next)->
-  client.then((db)->
-    req.db = {
-      events: db.collection('events')
-      users: db.collection('users')
-    }
+  db.then((db)->
+    req.db = db
     next()
   )
   .catch((e)->
@@ -82,11 +88,16 @@ app.post('/users', (req, res)->
 
 
 app.get('/events', (req, res) ->
-  req.db.events.find({}).toArray((err, events)->
-    throw err if err?
-    console.log(events)
-    res.json({events})
+  req.db.events.find({}, (err, cur)->
+    cur.each((el)->
+      console.log(arguments)
+    )
+    res.json('kapa')
   )
+  #.toArray((err, events)->
+  #  throw err if err?
+  #  res.json({events})
+  #)
 )
 
 app.post('/events', [auth], (req, res) ->
@@ -96,11 +107,21 @@ app.post('/events', [auth], (req, res) ->
   )
 )
 
+io.on('connection', (socket)->
+  socket.on('request', ->
+    db.then(({events})->
+      events.find({}).each((err, event)->
+        socket.emit('data', event)
+      )
+    )
+  )
+)
+
 if IS_DEVELOPMENT
   app.use('/static', express.static(__dirname + "/static"))
 
   app.get('/', (req, res) ->
-    response.sendFile(__dirname + "static/views/index.html")
+    res.sendFile(__dirname + "/static/views/index.html")
   )
 
-app.listen(8000)
+server.listen(8000)

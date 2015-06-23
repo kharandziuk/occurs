@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title></title>
+<meta charset="UTF-8">
+<title>Node starter</title>
 </head>
 <body>
-  it works!
+It works
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  (function(io){
+    var socket = io();
+    socket.on('connect', function(){
+      socket.emit('request');
+      socket.on('data', function(data) {
+        console.log(data);
+      })
+    });
+  })(io)
+</script>
 </body>
 </html>
