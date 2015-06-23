@@ -42,3 +42,6 @@ Session.vim
 ### Vagrant ###
 .vagrant/
 
+.sass-cache/
+s/
+npm-debug.log

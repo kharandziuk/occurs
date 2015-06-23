@@ -1,10 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title></title>
+  <meta charset="utf-8">
+  <title>occurs</title>
+  <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
-  it works!
+  <script src="/static/app.js"></script>
+  <script>
+    // FIXME this should be automatically added into app.js via gulp for development enviroment
+    document.write('<script src="//' + location.hostname + ':35729/livereload.js"><'+'/script>')
+  </script>
 </body>
 </html>
