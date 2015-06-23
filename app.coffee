@@ -36,7 +36,7 @@ app.use((req, res, next)->
 
 app.set('jwtTokenSecret', 'YOUR_SECRET_STRING')
 
-app.get('/users', (req, res)->
+app.post('/login', (req, res)->
   {username, password} = req.body
   if username? and password?
     req.db.users.find({username, password}).toArray (err, users)->
